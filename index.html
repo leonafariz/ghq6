@@ -1,1 +1,598 @@
-hello world
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neumorphic Buttons</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #E6E1FF 0%, #FFE0D0 50%, #D6CCF5 100%);
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+        
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #E6E1FF, #D6CCF5);
+            box-shadow: 
+                8px 8px 15px rgba(163, 177, 198, 0.5),
+                -8px -8px 15px rgba(255, 255, 255, 0.8),
+                inset 1px 1px 1px rgba(255, 255, 255, 0.3);
+            margin-bottom: 10px;
+            transition: all 0.5s ease;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+        }
+        
+        .title {
+            color: #2D3A8C;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            transition: all 0.5s ease;
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            transition: all 0.5s ease;
+        }
+        
+        .neumorphic-btn {
+            padding: 18px 40px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2D3A8C;
+            background: #E6E1FF;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 
+                8px 8px 15px rgba(163, 177, 198, 0.5),
+                -8px -8px 15px rgba(255, 255, 255, 0.8),
+                inset 1px 1px 1px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+        
+        .neumorphic-btn:hover {
+            box-shadow: 
+                6px 6px 10px rgba(163, 177, 198, 0.4),
+                -6px -6px 10px rgba(255, 255, 255, 0.7),
+                inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+            transform: translateY(2px);
+        }
+        
+        .neumorphic-btn:active {
+            box-shadow: 
+                inset 5px 5px 10px rgba(163, 177, 198, 0.4),
+                inset -5px -5px 10px rgba(255, 255, 255, 0.7);
+        }
+        
+        .hello-btn {
+            background: linear-gradient(145deg, #E6E1FF, #D6CCF5);
+        }
+        
+        .hi-btn {
+            background: linear-gradient(145deg, #FFE0D0, #FFD6C4);
+        }
+        
+        .expanded-bg {
+            position: fixed;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                8px 8px 15px rgba(163, 177, 198, 0.5),
+                -8px -8px 15px rgba(255, 255, 255, 0.8);
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 5;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .expanded-bg.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .corner-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 20;
+            pointer-events: none;
+        }
+        
+        .corner-btn.active {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Chat interface styles */
+        .chat-container {
+            display: none;
+            width: 30%;
+            height: 100%;
+            flex-direction: column;
+            border-right: 2px solid rgba(163, 177, 198, 0.3);
+            padding: 20px;
+            background-color: rgba(230, 225, 255, 0.3);
+        }
+        
+        .chat-container.active {
+            display: flex;
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(163, 177, 198, 0.3);
+        }
+        
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #2D3A8C, #4A5BC7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            box-shadow: 
+                3px 3px 6px rgba(163, 177, 198, 0.4),
+                -3px -3px 6px rgba(255, 255, 255, 0.7);
+        }
+        
+        .chat-avatar span {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .chat-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2D3A8C;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            max-width: 85%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            position: relative;
+        }
+        
+        .message.received {
+            align-self: flex-start;
+            background: #E6E1FF;
+            color: #2D3A8C;
+            border-bottom-left-radius: 5px;
+            box-shadow: 
+                3px 3px 5px rgba(163, 177, 198, 0.3),
+                -1px -1px 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        .message.sent {
+            align-self: flex-end;
+            background: #2D3A8C;
+            color: white;
+            border-bottom-right-radius: 5px;
+            box-shadow: 
+                3px 3px 5px rgba(163, 177, 198, 0.3),
+                -1px -1px 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(163, 177, 198, 0.3);
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 20px;
+            background: #E6E1FF;
+            color: #2D3A8C;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 
+                inset 3px 3px 5px rgba(163, 177, 198, 0.4),
+                inset -3px -3px 5px rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            box-shadow: 
+                inset 4px 4px 6px rgba(163, 177, 198, 0.5),
+                inset -4px -4px 6px rgba(255, 255, 255, 0.8);
+        }
+        
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #2D3A8C, #4A5BC7);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 
+                3px 3px 6px rgba(163, 177, 198, 0.4),
+                -3px -3px 6px rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .send-btn:active {
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.1);
+            transform: scale(0.95);
+        }
+        
+        .content-area {
+            display: none;
+            width: 70%;
+            height: 100%;
+            padding: 20px;
+        }
+        
+        .content-area.active {
+            display: block;
+        }
+        
+        .status-indicator {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 15px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            color: #2D3A8C;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 
+                3px 3px 5px rgba(163, 177, 198, 0.3),
+                -1px -1px 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        .status-indicator.show {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .chat-container {
+                width: 100%;
+                border-right: none;
+            }
+            
+            .content-area {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .neumorphic-btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+            
+            .logo-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .logo {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .corner-btn {
+                top: 20px;
+                right: 20px;
+                transform: scale(0.7);
+            }
+            
+            .corner-btn.active {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="expanded-bg" id="expandedBg">
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-header">
+                <div class="chat-avatar">
+                    <span>L</span>
+                </div>
+                <div class="chat-title">Libria AI</div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message sent">
+                    Hello
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+                <button class="send-btn" id="sendBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="content-area" id="contentArea"></div>
+    </div>
+    
+    <div class="container" id="mainContainer">
+        <div class="logo-container">
+            <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#2D3A8C" />
+                        <stop offset="100%" stop-color="#FF6F61" />
+                    </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="40" fill="none" stroke="url(#logoGradient)" stroke-width="4" />
+                <path d="M30,50 L45,65 L70,35" stroke="url(#logoGradient)" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="50" cy="50" r="20" fill="none" stroke="url(#logoGradient)" stroke-width="2" stroke-dasharray="5,3" />
+            </svg>
+        </div>
+        <h1 class="title">Hi guys, Welcome!</h1>
+        <div class="buttons-container">
+            <button class="neumorphic-btn hello-btn" id="helloBtn">Hello</button>
+            <button class="neumorphic-btn hi-btn" id="hiBtn">Hi guys</button>
+        </div>
+    </div>
+    
+    <button class="neumorphic-btn hello-btn corner-btn" id="cornerHelloBtn">Hello</button>
+    <button class="neumorphic-btn hi-btn corner-btn" id="cornerHiBtn">Hi guys</button>
+    
+    <div class="status-indicator" id="statusIndicator">Message sent</div>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        const helloBtn = document.getElementById('helloBtn');
+        const hiBtn = document.getElementById('hiBtn');
+        const cornerHelloBtn = document.getElementById('cornerHelloBtn');
+        const cornerHiBtn = document.getElementById('cornerHiBtn');
+        const expandedBg = document.getElementById('expandedBg');
+        const mainContainer = document.getElementById('mainContainer');
+        const chatContainer = document.getElementById('chatContainer');
+        const contentArea = document.getElementById('contentArea');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const statusIndicator = document.getElementById('statusIndicator');
+        
+        const WEBHOOK_URL = 'https://ghxleon.app.n8n.cloud/webhook/ghq6';
+        let initialMessageSent = false;
+        
+        // Set initial positions for the expanded background with doubled margins
+        function setExpandedBgPosition() {
+            const margin = 40; // Doubled from 20px
+            expandedBg.style.top = margin + 'px';
+            expandedBg.style.left = margin + 'px';
+            expandedBg.style.right = margin + 'px';
+            expandedBg.style.bottom = margin + 'px';
+        }
+        
+        setExpandedBgPosition();
+        window.addEventListener('resize', setExpandedBgPosition);
+        
+        // Function to send message to webhook
+        async function sendToWebhook(message) {
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                if (response.ok) {
+                    showStatus('Message sent');
+                    return true;
+                } else {
+                    showStatus('Failed to send message');
+                    console.error('Failed to send message to webhook');
+                    return false;
+                }
+            } catch (error) {
+                showStatus('Error sending message');
+                console.error('Error sending message to webhook:', error);
+                return false;
+            }
+        }
+        
+        // Show status indicator
+        function showStatus(message) {
+            statusIndicator.textContent = message;
+            statusIndicator.classList.add('show');
+            
+            setTimeout(() => {
+                statusIndicator.classList.remove('show');
+            }, 2000);
+        }
+        
+        // Reset function to return to initial state
+        function resetToInitialState() {
+            // Hide expanded background
+            expandedBg.classList.remove('active');
+            
+            // Show main container
+            mainContainer.classList.remove('hidden');
+            
+            // Hide corner buttons
+            cornerHelloBtn.classList.remove('active');
+            cornerHiBtn.classList.remove('active');
+            
+            // Hide chat container and content area
+            chatContainer.classList.remove('active');
+            contentArea.classList.remove('active');
+        }
+        
+        // Hello button click
+        helloBtn.addEventListener('click', async function() {
+            // Expand background
+            expandedBg.style.background = 'rgba(230, 225, 255, 0.5)'; // 50% transparent
+            expandedBg.classList.add('active');
+            
+            // Hide main container
+            mainContainer.classList.add('hidden');
+            
+            // Show Hi button in corner
+            cornerHiBtn.classList.add('active');
+            cornerHelloBtn.classList.remove('active'); // Ensure the other button is hidden
+            
+            // Show chat container and content area
+            chatContainer.classList.add('active');
+            contentArea.classList.add('active');
+            
+            // Send initial "Hello" message to webhook if not already sent
+            if (!initialMessageSent) {
+                await sendToWebhook("Hello");
+                initialMessageSent = true;
+            }
+        });
+        
+        // Hi button click
+        hiBtn.addEventListener('click', function() {
+            // Expand background
+            expandedBg.style.background = 'rgba(255, 224, 208, 0.5)'; // 50% transparent
+            expandedBg.classList.add('active');
+            
+            // Hide main container
+            mainContainer.classList.add('hidden');
+            
+            // Show Hello button in corner
+            cornerHelloBtn.classList.add('active');
+            cornerHiBtn.classList.remove('active'); // Ensure the other button is hidden
+            
+            // Hide chat container and content area
+            chatContainer.classList.remove('active');
+            contentArea.classList.remove('active');
+        });
+        
+        // Corner Hello button click
+        cornerHelloBtn.addEventListener('click', resetToInitialState);
+        
+        // Corner Hi button click
+        cornerHiBtn.addEventListener('click', resetToInitialState);
+        
+        // Send message function
+        async function sendMessage() {
+            const messageText = chatInput.value.trim();
+            if (messageText) {
+                // Create and add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message sent';
+                userMessage.textContent = messageText;
+                chatMessages.appendChild(userMessage);
+                
+                // Send message to webhook
+                await sendToWebhook(messageText);
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // Auto scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+        
+        // Send button click
+        sendBtn.addEventListener('click', sendMessage);
+        
+        // Enter key press in input
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96455f39d7efce67',t:'MTc1MzM4MDYwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
