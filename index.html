@@ -182,7 +182,6 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(145deg, #2D3A8C, #4A5BC7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -190,6 +189,14 @@
             box-shadow: 
                 3px 3px 6px rgba(163, 177, 198, 0.4),
                 -3px -3px 6px rgba(255, 255, 255, 0.7);
+        }
+        
+        .chat-avatar.libria {
+            background: linear-gradient(145deg, #2D3A8C, #4A5BC7);
+        }
+        
+        .chat-avatar.logeen {
+            background: linear-gradient(145deg, #FF6F61, #FF9671);
         }
         
         .chat-avatar span {
@@ -277,7 +284,6 @@
             height: 45px;
             border: none;
             border-radius: 50%;
-            background: linear-gradient(145deg, #2D3A8C, #4A5BC7);
             color: white;
             display: flex;
             justify-content: center;
@@ -287,6 +293,14 @@
                 3px 3px 6px rgba(163, 177, 198, 0.4),
                 -3px -3px 6px rgba(255, 255, 255, 0.7);
             transition: all 0.3s ease;
+        }
+        
+        .send-btn.libria {
+            background: linear-gradient(145deg, #2D3A8C, #4A5BC7);
+        }
+        
+        .send-btn.logeen {
+            background: linear-gradient(145deg, #FF6F61, #FF9671);
         }
         
         .send-btn:hover {
@@ -380,22 +394,23 @@
     </style>
 </head>
 <body>
-    <div class="expanded-bg" id="expandedBg">
-        <div class="chat-container" id="chatContainer">
+    <!-- Hello Button Expanded Area -->
+    <div class="expanded-bg" id="expandedBgHello">
+        <div class="chat-container" id="chatContainerHello">
             <div class="chat-header">
-                <div class="chat-avatar">
+                <div class="chat-avatar libria">
                     <span>L</span>
                 </div>
                 <div class="chat-title">Libria AI</div>
             </div>
-            <div class="chat-messages" id="chat">
+            <div class="chat-messages" id="chatHello">
                 <div class="msg user">
                     Hello
                 </div>
             </div>
             <div class="chat-input-container">
-                <input type="text" class="chat-input" id="input" placeholder="Type your message...">
-                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                <input type="text" class="chat-input" id="inputHello" placeholder="Type your message...">
+                <button class="send-btn libria" id="sendBtnHello" onclick="sendMessageHello()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -403,7 +418,34 @@
                 </button>
             </div>
         </div>
-        <div class="content-area" id="contentArea"></div>
+        <div class="content-area" id="contentAreaHello"></div>
+    </div>
+    
+    <!-- Hi Guys Button Expanded Area -->
+    <div class="expanded-bg" id="expandedBgHi">
+        <div class="chat-container" id="chatContainerHi">
+            <div class="chat-header">
+                <div class="chat-avatar logeen">
+                    <span>L</span>
+                </div>
+                <div class="chat-title">Logeen AI</div>
+            </div>
+            <div class="chat-messages" id="chatHi">
+                <div class="msg user">
+                    Hi guys
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="inputHi" placeholder="Type your message...">
+                <button class="send-btn logeen" id="sendBtnHi" onclick="sendMessageHi()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="content-area" id="contentAreaHi"></div>
     </div>
     
     <div class="container" id="mainContainer">
@@ -439,24 +481,36 @@
         const hiBtn = document.getElementById('hiBtn');
         const cornerHelloBtn = document.getElementById('cornerHelloBtn');
         const cornerHiBtn = document.getElementById('cornerHiBtn');
-        const expandedBg = document.getElementById('expandedBg');
+        const expandedBgHello = document.getElementById('expandedBgHello');
+        const expandedBgHi = document.getElementById('expandedBgHi');
         const mainContainer = document.getElementById('mainContainer');
-        const chatContainer = document.getElementById('chatContainer');
-        const contentArea = document.getElementById('contentArea');
-        const input = document.getElementById('input');
-        const chat = document.getElementById('chat');
+        const chatContainerHello = document.getElementById('chatContainerHello');
+        const chatContainerHi = document.getElementById('chatContainerHi');
+        const contentAreaHello = document.getElementById('contentAreaHello');
+        const contentAreaHi = document.getElementById('contentAreaHi');
+        const inputHello = document.getElementById('inputHello');
+        const inputHi = document.getElementById('inputHi');
+        const chatHello = document.getElementById('chatHello');
+        const chatHi = document.getElementById('chatHi');
         const statusIndicator = document.getElementById('statusIndicator');
         
-        const webhookUrl = "https://ghxleon.app.n8n.cloud/webhook-test/ghq6";
-        let initialMessageSent = false;
+        const webhookUrlHello = "https://ghxleon.app.n8n.cloud/webhook/ghq6";
+        const webhookUrlHi = "https://ghxleon.app.n8n.cloud/webhook-test/logeenhq6";
+        let initialHelloMessageSent = false;
+        let initialHiMessageSent = false;
         
-        // Set initial positions for the expanded background with doubled margins
+        // Set initial positions for the expanded backgrounds with doubled margins
         function setExpandedBgPosition() {
             const margin = 40; // Doubled from 20px
-            expandedBg.style.top = margin + 'px';
-            expandedBg.style.left = margin + 'px';
-            expandedBg.style.right = margin + 'px';
-            expandedBg.style.bottom = margin + 'px';
+            expandedBgHello.style.top = margin + 'px';
+            expandedBgHello.style.left = margin + 'px';
+            expandedBgHello.style.right = margin + 'px';
+            expandedBgHello.style.bottom = margin + 'px';
+            
+            expandedBgHi.style.top = margin + 'px';
+            expandedBgHi.style.left = margin + 'px';
+            expandedBgHi.style.right = margin + 'px';
+            expandedBgHi.style.bottom = margin + 'px';
         }
         
         setExpandedBgPosition();
@@ -474,8 +528,9 @@
         
         // Reset function to return to initial state
         function resetToInitialState() {
-            // Hide expanded background
-            expandedBg.classList.remove('active');
+            // Hide expanded backgrounds
+            expandedBgHello.classList.remove('active');
+            expandedBgHi.classList.remove('active');
             
             // Show main container
             mainContainer.classList.remove('hidden');
@@ -484,25 +539,27 @@
             cornerHelloBtn.classList.remove('active');
             cornerHiBtn.classList.remove('active');
             
-            // Hide chat container and content area
-            chatContainer.classList.remove('active');
-            contentArea.classList.remove('active');
+            // Hide chat containers and content areas
+            chatContainerHello.classList.remove('active');
+            contentAreaHello.classList.remove('active');
+            chatContainerHi.classList.remove('active');
+            contentAreaHi.classList.remove('active');
         }
         
-        // Send message function using the provided approach
-        async function sendMessage() {
-            const text = input.value.trim();
+        // Send message function for Hello chat
+        async function sendMessageHello() {
+            const text = inputHello.value.trim();
             if (!text) return;
             
             // Tampilkan pesan user
-            chat.innerHTML += `<div class="msg user"> ${text}</div>`;
-            input.value = "";
+            chatHello.innerHTML += `<div class="msg user"> ${text}</div>`;
+            inputHello.value = "";
             
             // Auto scroll to bottom
-            chat.scrollTop = chat.scrollHeight;
+            chatHello.scrollTop = chatHello.scrollHeight;
             
             try {
-                const res = await fetch(webhookUrl, {
+                const res = await fetch(webhookUrlHello, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ pesan: text })  // field yang diterima oleh webhook n8n
@@ -511,20 +568,52 @@
                 const data = await res.json();
                 
                 // Tampilkan balasan bot dari field `respond`
-                chat.innerHTML += `<div class="msg bot"> ${data.respond || "Tidak ada balasan."}</div>`;
-                chat.scrollTop = chat.scrollHeight;
+                chatHello.innerHTML += `<div class="msg bot"> ${data.respond || "Tidak ada balasan."}</div>`;
+                chatHello.scrollTop = chatHello.scrollHeight;
                 
             } catch (err) {
-                chat.innerHTML += `<div class="msg bot"> Error: ${err.message}</div>`;
-                chat.scrollTop = chat.scrollHeight;
+                chatHello.innerHTML += `<div class="msg bot"> Error: ${err.message}</div>`;
+                chatHello.scrollTop = chatHello.scrollHeight;
+            }
+        }
+        
+        // Send message function for Hi chat
+        async function sendMessageHi() {
+            const text = inputHi.value.trim();
+            if (!text) return;
+            
+            // Tampilkan pesan user
+            chatHi.innerHTML += `<div class="msg user"> ${text}</div>`;
+            inputHi.value = "";
+            
+            // Auto scroll to bottom
+            chatHi.scrollTop = chatHi.scrollHeight;
+            
+            try {
+                const res = await fetch(webhookUrlHi, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ pesan: text })  // field yang diterima oleh webhook n8n
+                });
+                
+                const data = await res.json();
+                
+                // Tampilkan balasan bot dari field `respond`
+                chatHi.innerHTML += `<div class="msg bot"> ${data.respond || "Tidak ada balasan."}</div>`;
+                chatHi.scrollTop = chatHi.scrollHeight;
+                
+            } catch (err) {
+                chatHi.innerHTML += `<div class="msg bot"> Error: ${err.message}</div>`;
+                chatHi.scrollTop = chatHi.scrollHeight;
             }
         }
         
         // Hello button click
         helloBtn.addEventListener('click', async function() {
             // Expand background
-            expandedBg.style.background = 'rgba(230, 225, 255, 0.5)'; // 50% transparent
-            expandedBg.classList.add('active');
+            expandedBgHello.style.background = 'rgba(230, 225, 255, 0.5)'; // 50% transparent
+            expandedBgHello.classList.add('active');
+            expandedBgHi.classList.remove('active'); // Hide the other expanded bg
             
             // Hide main container
             mainContainer.classList.add('hidden');
@@ -534,13 +623,15 @@
             cornerHelloBtn.classList.remove('active'); // Ensure the other button is hidden
             
             // Show chat container and content area
-            chatContainer.classList.add('active');
-            contentArea.classList.add('active');
+            chatContainerHello.classList.add('active');
+            contentAreaHello.classList.add('active');
+            chatContainerHi.classList.remove('active');
+            contentAreaHi.classList.remove('active');
             
             // Send initial "Hello" message to webhook if not already sent
-            if (!initialMessageSent) {
+            if (!initialHelloMessageSent) {
                 try {
-                    const res = await fetch(webhookUrl, {
+                    const res = await fetch(webhookUrlHello, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ pesan: "Hello" })
@@ -550,23 +641,24 @@
                     
                     // Add bot response if received
                     if (data.respond) {
-                        chat.innerHTML += `<div class="msg bot"> ${data.respond}</div>`;
-                        chat.scrollTop = chat.scrollHeight;
+                        chatHello.innerHTML += `<div class="msg bot"> ${data.respond}</div>`;
+                        chatHello.scrollTop = chatHello.scrollHeight;
                     }
                     
-                    initialMessageSent = true;
+                    initialHelloMessageSent = true;
                 } catch (err) {
-                    chat.innerHTML += `<div class="msg bot"> Error: ${err.message}</div>`;
-                    chat.scrollTop = chat.scrollHeight;
+                    chatHello.innerHTML += `<div class="msg bot"> Error: ${err.message}</div>`;
+                    chatHello.scrollTop = chatHello.scrollHeight;
                 }
             }
         });
         
         // Hi button click
-        hiBtn.addEventListener('click', function() {
+        hiBtn.addEventListener('click', async function() {
             // Expand background
-            expandedBg.style.background = 'rgba(255, 224, 208, 0.5)'; // 50% transparent
-            expandedBg.classList.add('active');
+            expandedBgHi.style.background = 'rgba(255, 224, 208, 0.5)'; // 50% transparent
+            expandedBgHi.classList.add('active');
+            expandedBgHello.classList.remove('active'); // Hide the other expanded bg
             
             // Hide main container
             mainContainer.classList.add('hidden');
@@ -575,9 +667,35 @@
             cornerHelloBtn.classList.add('active');
             cornerHiBtn.classList.remove('active'); // Ensure the other button is hidden
             
-            // Hide chat container and content area
-            chatContainer.classList.remove('active');
-            contentArea.classList.remove('active');
+            // Show chat container and content area
+            chatContainerHi.classList.add('active');
+            contentAreaHi.classList.add('active');
+            chatContainerHello.classList.remove('active');
+            contentAreaHello.classList.remove('active');
+            
+            // Send initial "Hi guys" message to webhook if not already sent
+            if (!initialHiMessageSent) {
+                try {
+                    const res = await fetch(webhookUrlHi, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ pesan: "Hi guys" })
+                    });
+                    
+                    const data = await res.json();
+                    
+                    // Add bot response if received
+                    if (data.respond) {
+                        chatHi.innerHTML += `<div class="msg bot"> ${data.respond}</div>`;
+                        chatHi.scrollTop = chatHi.scrollHeight;
+                    }
+                    
+                    initialHiMessageSent = true;
+                } catch (err) {
+                    chatHi.innerHTML += `<div class="msg bot"> Error: ${err.message}</div>`;
+                    chatHi.scrollTop = chatHi.scrollHeight;
+                }
+            }
         });
         
         // Corner Hello button click
@@ -586,12 +704,19 @@
         // Corner Hi button click
         cornerHiBtn.addEventListener('click', resetToInitialState);
         
-        // Enter key press in input
-        input.addEventListener('keypress', function(e) {
+        // Enter key press in Hello input
+        inputHello.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                sendMessage();
+                sendMessageHello();
+            }
+        });
+        
+        // Enter key press in Hi input
+        inputHi.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessageHi();
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9645763ce7c34ac1',t:'MTc1MzM4MTU0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'964580cc60f8472e',t:'MTc1MzM4MTk3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
