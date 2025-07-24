@@ -77,11 +77,11 @@
         }
 
         .button-cream {
-            background: #F8ECD1; /* Cream color for the Hello button */
+            background: #F8ECD1; /* Cream color for the Login button */
         }
 
         .button-lavender {
-            background: #E6E1FF; /* Original lavender color for the Hi guys button */
+            background: #E6E1FF; /* Original lavender color for the Register button */
         }
 
         .button:hover {
@@ -202,8 +202,52 @@
 
         .content-section {
             width: 70%; /* 7/10 of the panel */
-            padding: 20px;
+            padding: 30px;
             height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center content vertically */
+            text-align: center;
+        }
+
+        .content-logo {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .content-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #2D3A8C;
+            margin-bottom: 10px;
+        }
+
+        .content-tagline {
+            font-size: 1rem;
+            color: #4A5568;
+            margin-bottom: 30px;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+
+        .hashtags-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            max-width: 80%;
+        }
+
+        .hashtag {
+            background: rgba(45, 58, 140, 0.1);
+            color: #2D3A8C;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
         }
 
         .chat-header {
@@ -244,6 +288,7 @@
             padding-right: 5px;
         }
 
+        /* Message styles - same for both chats */
         .message {
             padding: 12px 15px;
             border-radius: 18px;
@@ -269,18 +314,24 @@
 
         .chat-input {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-top: auto;
+            align-items: center;
         }
 
         .chat-input input {
             flex-grow: 1;
-            padding: 12px 15px;
+            padding: 12px 20px;
             border: 1px solid rgba(45, 58, 140, 0.2);
             border-radius: 20px;
             outline: none;
             font-size: 0.95rem;
             background: rgba(255, 255, 255, 0.8);
+        }
+
+        .chat-input input::placeholder {
+            color: #9DA3B4;
+            padding-left: 5px;
         }
 
         .chat-input input:focus {
@@ -293,13 +344,14 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 42px;
-            height: 42px;
+            width: 48px;
+            height: 48px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            flex-shrink: 0;
         }
 
         .send-button:hover {
@@ -308,8 +360,8 @@
         }
 
         .send-button svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             fill: white;
         }
 
@@ -393,6 +445,31 @@
             .content-section {
                 width: 100%;
                 height: 50%;
+                padding: 20px;
+            }
+            
+            .send-button {
+                width: 44px;
+                height: 44px;
+            }
+            
+            .content-logo {
+                max-width: 120px;
+                margin-bottom: 15px;
+            }
+            
+            .content-title {
+                font-size: 1.3rem;
+            }
+            
+            .content-tagline {
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+            
+            .hashtag {
+                font-size: 0.75rem;
+                padding: 5px 12px;
             }
         }
     </style>
@@ -411,12 +488,12 @@
                 <div class="chat-avatar">L</div>
                 <h2>Libria AI</h2>
             </div>
-            <div class="chat-messages" id="chat">
+            <div class="chat-messages" id="hello-chat">
                 <!-- Initial message will be added via JavaScript -->
             </div>
             <div class="chat-input">
-                <input type="text" id="input" placeholder="Type your message...">
-                <button class="send-button" id="send-btn">
+                <input type="text" id="hello-input" placeholder="Type your message...">
+                <button class="send-button" id="hello-send-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
                     </svg>
@@ -425,10 +502,49 @@
         </div>
         <div class="content-section">
             <!-- Content for the right section -->
+            <img src="logo.png" alt="Libria AI Logo" class="content-logo">
+            <h2 class="content-title">Libria AI</h2>
+            <p class="content-tagline">AI-based smart library guide for educational equality</p>
+            <div class="hashtags-container">
+                <span class="hashtag">#AI_Agent</span>
+                <span class="hashtag">#Democratization_of_Education</span>
+                <span class="hashtag">#Powered_by_AI</span>
+                <span class="hashtag">#GarudaHacks6.0</span>
+            </div>
         </div>
     </div>
     
-    <div id="hi-guys-panel" class="expanded-panel"></div>
+    <div id="hi-guys-panel" class="expanded-panel">
+        <div class="chat-section">
+            <div class="chat-header">
+                <div class="chat-avatar">L</div>
+                <h2>Libria AI</h2>
+            </div>
+            <div class="chat-messages" id="hi-guys-chat">
+                <!-- Initial message will be added via JavaScript -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="hi-guys-input" placeholder="Type your message...">
+                <button class="send-button" id="hi-guys-send-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="content-section">
+            <!-- Content for the right section -->
+            <img src="logo.png" alt="Libria AI Logo" class="content-logo">
+            <h2 class="content-title">Libria AI</h2>
+            <p class="content-tagline">AI-based smart library guide for educational equality</p>
+            <div class="hashtags-container">
+                <span class="hashtag">#AI_Agent</span>
+                <span class="hashtag">#Democratization_of_Education</span>
+                <span class="hashtag">#Powered_by_AI</span>
+                <span class="hashtag">#GarudaHacks6.0</span>
+            </div>
+        </div>
+    </div>
 
     <div class="container" id="main-container">
         <!-- Logo placeholder - replace src with your actual logo.png path -->
@@ -441,8 +557,8 @@
         
         <!-- Buttons container -->
         <div class="buttons-container" id="buttons-container">
-            <button id="hello-btn" class="button button-cream">Hello</button>
-            <button id="hi-guys-btn" class="button button-lavender">Hi guys</button>
+            <button id="hello-btn" class="button button-cream">Login</button>
+            <button id="hi-guys-btn" class="button button-lavender">Register</button>
         </div>
     </div>
 
@@ -457,22 +573,30 @@
             const hiGuysPanel = document.getElementById('hi-guys-panel');
             const logoContainer = document.getElementById('logo-container');
             const welcomeText = document.getElementById('welcome-text');
-            const sendButton = document.getElementById('send-btn');
-            const chatInput = document.getElementById('input');
-            const chatMessages = document.getElementById('chat');
             
-            // Webhook URL
-            const webhookUrl = "https://ghxleon.app.n8n.cloud/webhook-test/logeenhq6";
+            // Hello chat elements
+            const helloSendButton = document.getElementById('hello-send-btn');
+            const helloChatInput = document.getElementById('hello-input');
+            const helloChatMessages = document.getElementById('hello-chat');
             
-            // When Hello button is clicked
+            // Hi guys chat elements
+            const hiGuysSendButton = document.getElementById('hi-guys-send-btn');
+            const hiGuysChatInput = document.getElementById('hi-guys-input');
+            const hiGuysChatMessages = document.getElementById('hi-guys-chat');
+            
+            // Webhook URLs
+            const helloWebhookUrl = "https://ghxleon.app.n8n.cloud/webhook/logeenhq6";
+            const hiGuysWebhookUrl = "https://ghxleon.app.n8n.cloud/webhook/ghq6";
+            
+            // When Login button is clicked (formerly Hello)
             helloBtn.addEventListener('click', function() {
                 // Expand the Hello panel
                 helloPanel.classList.add('active');
                 
-                // Move Hi Guys button to top right
+                // Move Register button to top right
                 hiGuysBtn.classList.add('repositioned');
                 
-                // Remove Hello button from the center
+                // Remove Login button from the center
                 helloBtn.style.display = 'none';
                 
                 // Hide logo and welcome text
@@ -485,37 +609,49 @@
                     const initialMessage = document.createElement('div');
                     initialMessage.classList.add('message', 'sent');
                     initialMessage.textContent = "Hello";
-                    chatMessages.appendChild(initialMessage);
+                    helloChatMessages.appendChild(initialMessage);
                     
                     // Send the initial message to webhook
-                    sendToWebhook("Hello");
+                    sendToWebhook("Hello", helloWebhookUrl, helloChatMessages);
                 }, 500);
             });
             
-            // When Hi Guys button is clicked
+            // When Register button is clicked (formerly Hi Guys)
             hiGuysBtn.addEventListener('click', function() {
                 // Expand the Hi Guys panel
                 hiGuysPanel.classList.add('active');
                 
-                // Move Hello button to top right
+                // Move Login button to top right
                 helloBtn.classList.add('repositioned');
                 
-                // Remove Hi Guys button from the center
+                // Remove Register button from the center
                 hiGuysBtn.style.display = 'none';
                 
                 // Hide logo and welcome text
                 logoContainer.classList.add('hidden');
                 welcomeText.classList.add('hidden');
+                
+                // Add initial "Hi" message and send to webhook
+                setTimeout(() => {
+                    // Add the initial "Hi" message
+                    const initialMessage = document.createElement('div');
+                    initialMessage.classList.add('message', 'sent');
+                    initialMessage.textContent = "Hi";
+                    hiGuysChatMessages.appendChild(initialMessage);
+                    
+                    // Send the initial message to webhook
+                    sendToWebhook("Hi", hiGuysWebhookUrl, hiGuysChatMessages);
+                }, 500);
             });
             
-            // When repositioned Hello button is clicked
+            // When repositioned Login button is clicked
             helloBtn.addEventListener('click', function() {
                 if (helloBtn.classList.contains('repositioned')) {
                     resetLayout();
                 }
             });
             
-            // When repositioned Hi Guys button is clicked
+            // When repositioned Register button is clicked
             hiGuysBtn.addEventListener('click', function() {
                 if (hiGuysBtn.classList.contains('repositioned')) {
                     resetLayout();
@@ -538,19 +674,20 @@
                 welcomeText.classList.remove('hidden');
                 
                 // Clear chat messages
-                chatMessages.innerHTML = '';
+                helloChatMessages.innerHTML = '';
+                hiGuysChatMessages.innerHTML = '';
             }
             
             // Function to send message to webhook
-            async function sendToWebhook(text) {
+            async function sendToWebhook(text, webhookUrl, chatContainer) {
                 // Show loading indicator
                 const loadingDiv = document.createElement('div');
                 loadingDiv.classList.add('loading', 'message', 'received');
                 loadingDiv.innerHTML = '<span></span><span></span><span></span>';
-                chatMessages.appendChild(loadingDiv);
+                chatContainer.appendChild(loadingDiv);
                 
                 // Scroll to bottom
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                chatContainer.scrollTop = chatContainer.scrollHeight;
                 
                 try {
                     const response = await fetch(webhookUrl, {
@@ -562,60 +699,91 @@
                     const data = await response.json();
                     
                     // Remove loading indicator
-                    chatMessages.removeChild(loadingDiv);
+                    chatContainer.removeChild(loadingDiv);
                     
                     // Display bot response
                     const botMessage = document.createElement('div');
                     botMessage.classList.add('message', 'received');
                     botMessage.textContent = data.respond || "I didn't get a response. Please try again.";
-                    chatMessages.appendChild(botMessage);
+                    chatContainer.appendChild(botMessage);
                     
                 } catch (error) {
                     // Remove loading indicator
-                    chatMessages.removeChild(loadingDiv);
+                    chatContainer.removeChild(loadingDiv);
                     
                     // Display error message
                     const errorMessage = document.createElement('div');
                     errorMessage.classList.add('message', 'received');
                     errorMessage.textContent = `Sorry, there was an error: ${error.message}`;
-                    chatMessages.appendChild(errorMessage);
+                    chatContainer.appendChild(errorMessage);
                 }
                 
                 // Scroll to bottom
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                chatContainer.scrollTop = chatContainer.scrollHeight;
             }
             
-            // Function to handle sending a message
-            function sendMessage() {
-                const text = chatInput.value.trim();
+            // Function to handle sending a message for Login chat
+            function sendHelloMessage() {
+                const text = helloChatInput.value.trim();
                 if (!text) return;
                 
                 // Display user message
                 const userMessage = document.createElement('div');
                 userMessage.classList.add('message', 'sent');
                 userMessage.textContent = text;
-                chatMessages.appendChild(userMessage);
+                helloChatMessages.appendChild(userMessage);
                 
                 // Clear input
-                chatInput.value = '';
+                helloChatInput.value = '';
                 
                 // Scroll to bottom
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                helloChatMessages.scrollTop = helloChatMessages.scrollHeight;
                 
                 // Send to webhook
-                sendToWebhook(text);
+                sendToWebhook(text, helloWebhookUrl, helloChatMessages);
             }
             
-            // Send message on button click
-            sendButton.addEventListener('click', sendMessage);
+            // Function to handle sending a message for Register chat
+            function sendHiGuysMessage() {
+                const text = hiGuysChatInput.value.trim();
+                if (!text) return;
+                
+                // Display user message
+                const userMessage = document.createElement('div');
+                userMessage.classList.add('message', 'sent');
+                userMessage.textContent = text;
+                hiGuysChatMessages.appendChild(userMessage);
+                
+                // Clear input
+                hiGuysChatInput.value = '';
+                
+                // Scroll to bottom
+                hiGuysChatMessages.scrollTop = hiGuysChatMessages.scrollHeight;
+                
+                // Send to webhook
+                sendToWebhook(text, hiGuysWebhookUrl, hiGuysChatMessages);
+            }
             
-            // Send message on Enter key
-            chatInput.addEventListener('keypress', function(e) {
+            // Send message on button click - Login chat
+            helloSendButton.addEventListener('click', sendHelloMessage);
+            
+            // Send message on Enter key - Login chat
+            helloChatInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    sendMessage();
+                    sendHelloMessage();
+                }
+            });
+            
+            // Send message on button click - Register chat
+            hiGuysSendButton.addEventListener('click', sendHiGuysMessage);
+            
+            // Send message on Enter key - Register chat
+            hiGuysChatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendHiGuysMessage();
                 }
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9647099a5681a081',t:'MTc1MzM5ODA2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96474243a2553e60',t:'MTc1MzQwMDM4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
