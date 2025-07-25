@@ -1,0 +1,223 @@
+{
+  "name": "ghq3",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_7zWjwZMgTQUyY0AYd9pXcFP5",
+          "mode": "list",
+          "cachedResultName": "Libria AI"
+        },
+        "prompt": "define",
+        "text": "={{ $('Webhook').item.json.body.chatInput }}",
+        "memory": "threadId",
+        "threadId": "={{ $json.thread_id }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        768,
+        16
+      ],
+      "id": "b0c94a18-405e-4f85-afdb-1c14b16497cc",
+      "name": "Message an assistant",
+      "credentials": {
+        "openAiApi": {
+          "id": "tDj2EjR3OZcLDGnp",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ee7ddc2d-307d-4d38-b9ab-caf0c6959982",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        192,
+        16
+      ],
+      "id": "c5dbe647-e4a0-4fb6-8674-d3032b21e0bd",
+      "name": "Webhook",
+      "webhookId": "ee7ddc2d-307d-4d38-b9ab-caf0c6959982"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1280,
+        16
+      ],
+      "id": "019485c1-b978-4c2a-97bc-ed6361f6c0c1",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/threads",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        16
+      ],
+      "id": "ed991676-a85a-4adb-be37-685b606bdf86",
+      "name": "HTTP Request",
+      "credentials": {
+        "openAiApi": {
+          "id": "tDj2EjR3OZcLDGnp",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8be4d634-d3e9-4d5f-b138-44ca28d90045",
+              "name": "thread_id",
+              "value": "={{ $json[\"id\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        608,
+        16
+      ],
+      "id": "ee9f14a2-9ff0-41fd-9f86-e159e1dc941f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a613f4ca-5bb1-434b-a65d-559b07b4a12c",
+              "name": "respond",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        16
+      ],
+      "id": "a978527a-58e8-4cbf-8525-494d761bf135",
+      "name": "Edit Fields1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message an assistant": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Message an assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "39892e14-4946-4872-8396-618c4164008c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9e547c68c8d99974ca85452a0465f5e4c27dcbb57241ac95e7fe8a70bd991b72"
+  },
+  "id": "pzuAtmPlmrlYgpDj",
+  "tags": []
+}
