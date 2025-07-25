@@ -408,7 +408,98 @@
             animation-delay: -0.16s;
         }
 
+        /* Full-screen loading overlay */
+        .fullscreen-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .fullscreen-loading.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .fullscreen-loading-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .fullscreen-loading-dots span {
+            width: 20px;
+            height: 20px;
+            margin: 0 10px;
+            background-color: #2D3A8C;
+            border-radius: 50%;
+            display: inline-block;
+            animation: fullscreenBounce 1.4s infinite ease-in-out both;
+        }
+
+        .fullscreen-loading-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .fullscreen-loading-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .fullscreen-loading-text {
+            font-size: 2rem;
+            color: #2D3A8C;
+            font-weight: 600;
+        }
+
+        /* New white background screen */
+        .new-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+        }
+
+        .new-screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .new-screen-text {
+            font-size: 3rem;
+            color: #2D3A8C;
+            font-weight: 700;
+        }
+
         @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fullscreenBounce {
             0%, 80%, 100% {
                 transform: scale(0);
             }
@@ -471,6 +562,14 @@
                 font-size: 0.75rem;
                 padding: 5px 12px;
             }
+
+            .fullscreen-loading-text {
+                font-size: 1.5rem;
+            }
+
+            .new-screen-text {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
@@ -480,6 +579,21 @@
     <div class="blurred-circle circle2"></div>
     <div class="blurred-circle circle3"></div>
     <div class="blurred-circle circle4"></div>
+
+    <!-- Fullscreen loading overlay -->
+    <div class="fullscreen-loading" id="fullscreen-loading">
+        <div class="fullscreen-loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="fullscreen-loading-text">Loading...</div>
+    </div>
+
+    <!-- New white background screen -->
+    <div class="new-screen" id="new-screen">
+        <div class="new-screen-text">Hello world</div>
+    </div>
 
     <!-- Expanded panels -->
     <div id="hello-panel" class="expanded-panel">
@@ -573,6 +687,8 @@
             const hiGuysPanel = document.getElementById('hi-guys-panel');
             const logoContainer = document.getElementById('logo-container');
             const welcomeText = document.getElementById('welcome-text');
+            const fullscreenLoading = document.getElementById('fullscreen-loading');
+            const newScreen = document.getElementById('new-screen');
             
             // Hello chat elements
             const helloSendButton = document.getElementById('hello-send-btn');
@@ -678,6 +794,18 @@
                 hiGuysChatMessages.innerHTML = '';
             }
             
+            // Function to handle successful login
+            function handleSuccessfulLogin() {
+                // Show fullscreen loading
+                fullscreenLoading.classList.add('active');
+                
+                // After 2 seconds, show the new screen
+                setTimeout(() => {
+                    fullscreenLoading.classList.remove('active');
+                    newScreen.classList.add('active');
+                }, 2000);
+            }
+            
             // Function to send message to webhook
             async function sendToWebhook(text, webhookUrl, chatContainer) {
                 // Show loading indicator
@@ -706,6 +834,11 @@
                     botMessage.classList.add('message', 'received');
                     botMessage.textContent = data.respond || "I didn't get a response. Please try again.";
                     chatContainer.appendChild(botMessage);
+                    
+                    // Check if login was successful
+                    if (data.status_login === "berhasil") {
+                        handleSuccessfulLogin();
+                    }
                     
                 } catch (error) {
                     // Remove loading indicator
@@ -785,5 +918,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96474243a2553e60',t:'MTc1MzQwMDM4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9647aa9e3081e78b',t:'MTc1MzQwNDY2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
