@@ -462,32 +462,40 @@
             font-weight: 600;
         }
 
-        /* New white background screen */
+        /* New transparent panel with margins */
         .new-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: white;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1100;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: scale(0.9);
         }
 
         .new-screen.active {
             opacity: 1;
             visibility: visible;
+            transform: scale(1);
         }
 
         .new-screen-text {
             font-size: 3rem;
             color: #2D3A8C;
             font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
         }
 
         @keyframes bounce {
@@ -590,7 +598,7 @@
         <div class="fullscreen-loading-text">Loading...</div>
     </div>
 
-    <!-- New white background screen -->
+    <!-- New transparent panel with margins -->
     <div class="new-screen" id="new-screen">
         <div class="new-screen-text">Hello world</div>
     </div>
@@ -778,6 +786,7 @@
             function resetLayout() {
                 helloPanel.classList.remove('active');
                 hiGuysPanel.classList.remove('active');
+                newScreen.classList.remove('active');
                 
                 helloBtn.classList.remove('repositioned');
                 hiGuysBtn.classList.remove('repositioned');
@@ -802,6 +811,11 @@
                 // After 2 seconds, show the new screen
                 setTimeout(() => {
                     fullscreenLoading.classList.remove('active');
+                    
+                    // Hide the hello panel
+                    helloPanel.classList.remove('active');
+                    
+                    // Show the new screen
                     newScreen.classList.add('active');
                 }, 2000);
             }
@@ -918,5 +932,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9647aa9e3081e78b',t:'MTc1MzQwNDY2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9647bb5ee08e244a',t:'MTc1MzQwNTM0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
